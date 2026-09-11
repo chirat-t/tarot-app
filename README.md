@@ -34,7 +34,7 @@ src/
     characters.ts       # ตัวละคร 4 ตัว
   context/              # ThemeContext.tsx, CollectionContext.tsx
   screens/              # Home, Loading, CardDetail, Collection, Profile
-  components/           # CardBack, CardGridItem, CharacterAvatar, InfoRow (CardModal รอข้อ 6)
+  components/           # CardBack, CardGridItem, CardModal, CharacterAvatar, InfoRow
   navigation/
     AppNavigator.tsx
   assets/
@@ -50,10 +50,10 @@ assets/                 # ไอคอน/splash ของแอป (Expo ต้
 - [x] 3. Home Screen (Appbar + Badge, Banner, Grid 22 ใบ, Bottom tab)
 - [x] 4. Loading Screen (สับไพ่ ~1 วิ + ActivityIndicator ซ้อนหลังไพ่)
 - [x] 5. Card Detail (Appbar.BackAction + Avatar + คำโปรย + InfoRow + สุ่มไพ่ใหม่)
-- [ ] 6. Collection
+- [x] 6. Collection (Tabs, Grid 3 คอลัมน์, Badge ใหม่/✓, Modal ไพ่เต็มใบ)
 - [ ] 7. ใส่ assets จริง · 8. Capture หน้าจอ + รายงาน PDF
 
-หมายเหตุขั้นตอนที่ 3:
+หมายเหตุการพัฒนา:
 
 - สถานะไพ่ที่เปิดแล้วและรายการที่บันทึกไว้ persist ด้วย AsyncStorage
   (`@major-arcana/progress`, `@major-arcana/favorites`) อ่าน/เขียนที่
@@ -64,4 +64,9 @@ assets/                 # ไอคอน/splash ของแอป (Expo ต้
   ขั้นตอนที่ 7 เปลี่ยนเป็น `assets/card-back.png` จุดเดียวจบ
 - Avatar ใช้ `Avatar.Icon` แมป CharacterId → ไอคอน ที่
   `components/CharacterAvatar.tsx` ขั้นตอนที่ 7 เปลี่ยนเป็น `Avatar.Image`
-- `CollectionScreen` / `ProfileScreen` เป็นโครงรอขั้นตอนที่ 6
+- Collection: แท็บ "ไพ่ที่เคยดูแล้ว" วน 22 ใบจาก cards.ts — ใบที่เปิดแล้ว
+  โชว์เลขโรมัน + ชื่อไทย + Badge ✓ แตะเปิด Modal ไพ่เต็มใบ, ใบที่ยังไม่เปิด
+  โชว์ CardBack + Badge "ใหม่" และแตะไม่ได้
+- FlatList สองแท็บต้องมี key คนละตัว ไม่งั้น React ใช้ instance เดิมซ้ำ
+  แล้ว numColumns เปลี่ยนกลางคัน ซึ่ง React Native ไม่รองรับ
+- `ProfileScreen` ยังเป็นโครง (บรีฟไม่ได้ระบุสเปกไว้)
