@@ -1,0 +1,58 @@
+import { StyleSheet, View } from 'react-native';
+import { Text } from 'react-native-paper';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+
+import { colors } from '../theme';
+
+type Props = {
+  icon: keyof typeof MaterialCommunityIcons.glyphMap;
+  label: string;
+  value: string;
+};
+
+// แต่ละหัวข้อแยกเป็นกรอบของตัวเอง: ไอคอนวงกลมซ้าย, label เล็กด้านบน,
+// ค่าด้านล่างในกรอบเดียวกัน (PROJECT_BRIEF.md ข้อ 5.3)
+export default function InfoRow({ icon, label, value }: Props) {
+  return (
+    <View style={styles.frame}>
+      <View style={styles.iconCircle}>
+        <MaterialCommunityIcons name={icon} size={18} color={colors.gold} />
+      </View>
+      <View style={styles.texts}>
+        <Text style={styles.label}>{label}</Text>
+        <Text style={styles.value}>{value}</Text>
+      </View>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  frame: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 12,
+    padding: 14,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: colors.border,
+    backgroundColor: colors.bgCard,
+  },
+  iconCircle: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: colors.bgCard2,
+    borderWidth: 1,
+    borderColor: colors.goldDim,
+  },
+  texts: { flex: 1, gap: 4 },
+  label: {
+    color: colors.inkDim,
+    fontSize: 11,
+    letterSpacing: 1,
+    textTransform: 'uppercase',
+  },
+  value: { color: colors.parchment, fontSize: 15, lineHeight: 22 },
+});
