@@ -1,7 +1,9 @@
 import { useCallback, useState } from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import type { CompositeNavigationProp } from '@react-navigation/native';
 import type { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { ActivityIndicator, Appbar, Badge, Banner, Text } from 'react-native-paper';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -9,33 +11,36 @@ import CardGridItem from '../components/CardGridItem';
 import { useCollection } from '../context/CollectionContext';
 import { colors } from '../theme';
 import { TarotCard } from '../types';
-import type { RootTabParamList } from '../navigation/types';
+import type { RootStackParamList, RootTabParamList } from '../navigation/types';
+
+// Home อยู่ใน tab ที่ซ้อนอยู่ใน stack — ต้อง navigate ได้ทั้งสองระดับ
+type HomeNavigationProp = CompositeNavigationProp<
+  BottomTabNavigationProp<RootTabParamList, 'Home'>,
+  NativeStackNavigationProp<RootStackParamList>
+>;
 
 const COLUMNS = 3;
 const GAP = 12;
 
 export default function HomeScreen() {
-  const navigation = useNavigation<BottomTabNavigationProp<RootTabParamList, 'Home'>>();
+  const navigation = useNavigation<HomeNavigationProp>();
   const insets = useSafeAreaInsets();
-  const { cards, isLoading, viewedCount, totalCount, markViewed } = useCollection();
+  const { cards, isLoading, viewedCount, totalCount, getRandomCard } = useCollection();
 
   // Banner แนะนำครั้งแรก — ปิดแล้วไม่กลับมาอีก (ข้อ 5.1)
   const [bannerVisible, setBannerVisible] = useState(true);
 
   const handleCardPress = useCallback(
     (card: TarotCard) => {
-      // ขั้นตอนที่ 4-5: navigate ไป Loading (สับไพ่) แล้วต่อด้วย CardDetail
-      // ระหว่างนี้บันทึกว่าเปิดไพ่แล้ว เพื่อให้ Badge นับจำนวนได้จริง
-      markViewed(card.id);
+      navigation.navigate('Loading', { cardId: card.id });
     },
-    [markViewed]
+    [navigation]
   );
 
   const handleStart = useCallback(() => {
     setBannerVisible(false);
-    const randomCard = cards[Math.floor(Math.random() * cards.length)];
-    if (randomCard) handleCardPress(randomCard);
-  }, [cards, handleCardPress]);
+    handleCardPress(getRandomCard());
+  }, [getRandomCard, handleCardPress]);
 
   return (
     <View style={styles.container}>

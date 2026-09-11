@@ -33,8 +33,8 @@ src/
     cards.ts            # ข้อมูลไพ่ 22 ใบ (0-21)
     characters.ts       # ตัวละคร 4 ตัว
   context/              # ThemeContext.tsx, CollectionContext.tsx
-  screens/              # HomeScreen, LoadingScreen, CardDetailScreen, CollectionScreen
-  components/           # CardGridItem, CardModal, InfoRow
+  screens/              # Home, Loading, CardDetail, Collection, Profile
+  components/           # CardBack, CardGridItem, CharacterAvatar, InfoRow (CardModal รอข้อ 6)
   navigation/
     AppNavigator.tsx
   assets/
@@ -48,14 +48,20 @@ assets/                 # ไอคอน/splash ของแอป (Expo ต้
 - [x] 1. ติดตั้งโปรเจกต์ Expo + react-native-paper + React Navigation
 - [x] 2. `types.ts` + ข้อมูลไพ่ 22 ใบ + ตัวละคร 4 ตัว
 - [x] 3. Home Screen (Appbar + Badge, Banner, Grid 22 ใบ, Bottom tab)
-- [ ] 4. Loading (สับไพ่) · 5. Card Detail · 6. Collection
+- [x] 4. Loading Screen (สับไพ่ ~1 วิ + ActivityIndicator ซ้อนหลังไพ่)
+- [x] 5. Card Detail (Appbar.BackAction + Avatar + คำโปรย + InfoRow + สุ่มไพ่ใหม่)
+- [ ] 6. Collection
 - [ ] 7. ใส่ assets จริง · 8. Capture หน้าจอ + รายงาน PDF
 
 หมายเหตุขั้นตอนที่ 3:
 
-- สถานะไพ่ที่เปิดแล้วอยู่ใน `CollectionContext` แบบ in-memory — ขั้นตอนถัดไป
-  ต่อ AsyncStorage ที่จุดเดียวใน context นี้
-- หลังไพ่ในกริดวาดด้วย style ไปก่อน จะเปลี่ยนเป็น `assets/card-back.png` ในขั้นตอนที่ 7
-- แตะไพ่ตอนนี้บันทึกว่า "เปิดแล้ว" เพื่อให้ Badge นับได้จริง
-  ขั้นตอนที่ 4-5 จะเปลี่ยนเป็น navigate ไป Loading → CardDetail
+- สถานะไพ่ที่เปิดแล้วและรายการที่บันทึกไว้ persist ด้วย AsyncStorage
+  (`@major-arcana/progress`, `@major-arcana/favorites`) อ่าน/เขียนที่
+  `CollectionContext` ที่เดียว
+- Flow: แตะไพ่ → `Loading` (สับไพ่ ~1 วิ) → `replace` ไป `CardDetail`
+  ปุ่มย้อนกลับจึงกลับ Home ไม่ย้อนไปหน้าสับไพ่
+- หลังไพ่วาดด้วย style ไปก่อน อยู่ที่ `components/CardBack.tsx` ที่เดียว
+  ขั้นตอนที่ 7 เปลี่ยนเป็น `assets/card-back.png` จุดเดียวจบ
+- Avatar ใช้ `Avatar.Icon` แมป CharacterId → ไอคอน ที่
+  `components/CharacterAvatar.tsx` ขั้นตอนที่ 7 เปลี่ยนเป็น `Avatar.Image`
 - `CollectionScreen` / `ProfileScreen` เป็นโครงรอขั้นตอนที่ 6
