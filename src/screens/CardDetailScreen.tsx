@@ -55,13 +55,13 @@ export default function CardDetailScreen({ navigation, route }: Props) {
         contentContainerStyle={[styles.content, { paddingBottom: 32 + insets.bottom }]}
         showsVerticalScrollIndicator={false}
       >
-        {leadCharacter ? <CharacterAvatar characterId={leadCharacter} size={120} /> : null}
-
         <View style={styles.heading}>
           <Text style={styles.numeral}>{card.numeral}</Text>
           <Text style={styles.name}>{card.name}</Text>
           <Text style={styles.thaiName}>{card.thaiName}</Text>
         </View>
+
+        {leadCharacter ? <CharacterAvatar characterId={leadCharacter} size={120} /> : null}
 
         {/* คำโปรย: อิตาลิก กึ่งกลาง ไม่มีกรอบ ไม่มีป้ายกำกับ (ข้อ 5.3) */}
         <Text style={styles.quote}>{card.quote}</Text>
@@ -81,7 +81,6 @@ export default function CardDetailScreen({ navigation, route }: Props) {
           mode="contained"
           buttonColor={colors.gold}
           textColor={colors.bgPage}
-          icon="shuffle-variant"
           style={styles.drawButton}
           onPress={() => navigation.replace('Loading', { cardId: getRandomCard(card.id).id })}
         >
