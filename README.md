@@ -47,8 +47,15 @@ assets/                 # ไอคอน/splash ของแอป (Expo ต้
 
 - [x] 1. ติดตั้งโปรเจกต์ Expo + react-native-paper + React Navigation
 - [x] 2. `types.ts` + ข้อมูลไพ่ 22 ใบ + ตัวละคร 4 ตัว
-- [ ] 3. Home Screen · 4. Loading (สับไพ่) · 5. Card Detail · 6. Collection
+- [x] 3. Home Screen (Appbar + Badge, Banner, Grid 22 ใบ, Bottom tab)
+- [ ] 4. Loading (สับไพ่) · 5. Card Detail · 6. Collection
 - [ ] 7. ใส่ assets จริง · 8. Capture หน้าจอ + รายงาน PDF
 
-`src/navigation/AppNavigator.tsx` ตอนนี้มีหน้าจอชั่วคราวไว้ตรวจว่าติดตั้งครบ
-จะถูกแทนที่ด้วย Bottom tab (Home / Collection / Profile) ในขั้นตอนที่ 3
+หมายเหตุขั้นตอนที่ 3:
+
+- สถานะไพ่ที่เปิดแล้วอยู่ใน `CollectionContext` แบบ in-memory — ขั้นตอนถัดไป
+  ต่อ AsyncStorage ที่จุดเดียวใน context นี้
+- หลังไพ่ในกริดวาดด้วย style ไปก่อน จะเปลี่ยนเป็น `assets/card-back.png` ในขั้นตอนที่ 7
+- แตะไพ่ตอนนี้บันทึกว่า "เปิดแล้ว" เพื่อให้ Badge นับได้จริง
+  ขั้นตอนที่ 4-5 จะเปลี่ยนเป็น navigate ไป Loading → CardDetail
+- `CollectionScreen` / `ProfileScreen` เป็นโครงรอขั้นตอนที่ 6
