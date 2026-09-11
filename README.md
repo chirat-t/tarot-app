@@ -33,7 +33,7 @@ src/
     cards.ts            # ข้อมูลไพ่ 22 ใบ (0-21)
     characters.ts       # ตัวละคร 4 ตัว
   context/              # ThemeContext.tsx, CollectionContext.tsx
-  screens/              # Home, Loading, CardDetail, Collection, Profile
+  screens/              # Home, Loading, CardDetail, Collection
   components/           # CardBack, CardGridItem, CardModal, CharacterAvatar, InfoRow
   navigation/
     AppNavigator.tsx
@@ -69,4 +69,4 @@ assets/                 # ไอคอน/splash ของแอป (Expo ต้
   โชว์ CardBack + Badge "ใหม่" และแตะไม่ได้
 - FlatList สองแท็บต้องมี key คนละตัว ไม่งั้น React ใช้ instance เดิมซ้ำ
   แล้ว numColumns เปลี่ยนกลางคัน ซึ่ง React Native ไม่รองรับ
-- `ProfileScreen` ยังเป็นโครง (บรีฟไม่ได้ระบุสเปกไว้)
+- Bottom tab มี 2 ปุ่ม: Home / Collection (ตัดแท็บ Profile ออกตามที่ตกลงกัน)

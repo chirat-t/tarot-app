@@ -9,7 +9,6 @@ import CardDetailScreen from '../screens/CardDetailScreen';
 import CollectionScreen from '../screens/CollectionScreen';
 import HomeScreen from '../screens/HomeScreen';
 import LoadingScreen from '../screens/LoadingScreen';
-import ProfileScreen from '../screens/ProfileScreen';
 import { colors } from '../theme';
 import type { RootStackParamList, RootTabParamList } from './types';
 
@@ -77,16 +76,6 @@ function TabsNavigator() {
           },
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="cards-outline" color={color} size={size} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Profile"
-        component={ProfileScreen}
-        options={{
-          title: 'โปรไฟล์',
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="account-outline" color={color} size={size} />
           ),
         }}
       />

@@ -2,7 +2,6 @@
 export type RootTabParamList = {
   Home: undefined;
   Collection: undefined;
-  Profile: undefined;
 };
 
 // Stack ครอบ tab ไว้ เพื่อให้ Loading/CardDetail เปิดเต็มจอทับ tab bar
