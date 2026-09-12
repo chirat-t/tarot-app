@@ -1,5 +1,9 @@
 import { useCallback, useState } from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import type { CompositeNavigationProp } from '@react-navigation/native';
+import type { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Appbar, Badge, Text, TouchableRipple } from 'react-native-paper';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -10,6 +14,12 @@ import { useCollection } from '../context/CollectionContext';
 import characters from '../data/characters';
 import { colors } from '../theme';
 import { CharacterArc, TarotCard } from '../types';
+import type { RootStackParamList, RootTabParamList } from '../navigation/types';
+
+type CollectionNavigationProp = CompositeNavigationProp<
+  BottomTabNavigationProp<RootTabParamList, 'Collection'>,
+  NativeStackNavigationProp<RootStackParamList>
+>;
 
 const COLUMNS = 3;
 const GAP = 12;
@@ -70,16 +80,31 @@ function CollectionCard({
   );
 }
 
-function CharacterRow({ character }: { character: CharacterArc }) {
+function CharacterRow({
+  character,
+  onPress,
+}: {
+  character: CharacterArc;
+  onPress: (character: CharacterArc) => void;
+}) {
   return (
-    <View style={styles.characterRow}>
-      <CharacterAvatar characterId={character.id} size={56} />
-      <View style={styles.characterTexts}>
-        <Text style={styles.characterName}>{character.name}</Text>
-        <Text style={styles.characterArchetype}>{character.archetype}</Text>
-        <Text style={styles.characterArc}>{character.arcSummary}</Text>
+    <TouchableRipple
+      style={styles.characterRow}
+      borderless
+      rippleColor={`${colors.gold}22`}
+      onPress={() => onPress(character)}
+      accessibilityRole="button"
+      accessibilityLabel={`ดูรายละเอียด ${character.name}`}
+    >
+      <View style={styles.characterRowInner}>
+        <CharacterAvatar characterId={character.id} size={56} />
+        <View style={styles.characterTexts}>
+          <Text style={styles.characterName}>{character.name}</Text>
+          <Text style={styles.characterArchetype}>{character.archetype}</Text>
+          <Text style={styles.characterArc}>{character.arcSummary}</Text>
+        </View>
       </View>
-    </View>
+    </TouchableRipple>
   );
 }
 
@@ -89,7 +114,13 @@ export default function CollectionScreen() {
   const [tab, setTab] = useState<TabKey>('cards');
   const [selected, setSelected] = useState<TarotCard | null>(null);
 
+  const navigation = useNavigation<CollectionNavigationProp>();
   const handleCardPress = useCallback((card: TarotCard) => setSelected(card), []);
+  const handleCharacterPress = useCallback(
+    (character: CharacterArc) =>
+      navigation.navigate('CharacterDetail', { characterId: character.id }),
+    [navigation]
+  );
 
   return (
     <View style={styles.container}>
@@ -136,7 +167,9 @@ export default function CollectionScreen() {
           key="tab-characters"
           data={characters}
           keyExtractor={(character) => character.id}
-          renderItem={({ item }) => <CharacterRow character={item} />}
+          renderItem={({ item }) => (
+            <CharacterRow character={item} onPress={handleCharacterPress} />
+          )}
           contentContainerStyle={[styles.list, { paddingBottom: 24 + insets.bottom }]}
           showsVerticalScrollIndicator={false}
         />
@@ -208,14 +241,16 @@ const styles = StyleSheet.create({
   },
 
   characterRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 14,
-    padding: 14,
     borderRadius: 12,
     borderWidth: 1,
     borderColor: colors.border,
     backgroundColor: colors.bgCard,
+  },
+  characterRowInner: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 14,
+    padding: 14,
   },
   characterTexts: { flex: 1, gap: 3 },
   characterName: { color: colors.parchment, fontSize: 16 },

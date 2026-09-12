@@ -6,6 +6,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useCollection } from '../context/CollectionContext';
 import CardDetailScreen from '../screens/CardDetailScreen';
+import CharacterDetailScreen from '../screens/CharacterDetailScreen';
 import CollectionScreen from '../screens/CollectionScreen';
 import HomeScreen from '../screens/HomeScreen';
 import LoadingScreen from '../screens/LoadingScreen';
@@ -94,6 +95,7 @@ export default function AppNavigator() {
           options={{ animation: 'fade' }}
         />
         <Stack.Screen name="CardDetail" component={CardDetailScreen} />
+        <Stack.Screen name="CharacterDetail" component={CharacterDetailScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
