@@ -33,7 +33,7 @@ src/
     cards.ts            # ข้อมูลไพ่ 22 ใบ (0-21)
     characters.ts       # ตัวละคร 4 ตัว
   context/              # ThemeContext.tsx, CollectionContext.tsx
-  screens/              # Home, Loading, CardDetail, Collection
+  screens/              # Home, Loading, CardDetail, Collection, CharacterDetail
   components/           # CardBack, CardGridItem, CardModal, CharacterAvatar, InfoRow
   navigation/
     AppNavigator.tsx
@@ -70,3 +70,8 @@ assets/                 # ไอคอน/splash ของแอป (Expo ต้
 - FlatList สองแท็บต้องมี key คนละตัว ไม่งั้น React ใช้ instance เดิมซ้ำ
   แล้ว numColumns เปลี่ยนกลางคัน ซึ่ง React Native ไม่รองรับ
 - Bottom tab มี 2 ปุ่ม: Home / Collection (ตัดแท็บ Profile ออกตามที่ตกลงกัน)
+- แตะตัวละครในแท็บ "ตัวละคร" → `CharacterDetail` (ภาพเต็มตัว, ชื่อ + archetype,
+  คำโปรย, บุคลิก, โทนสีหลัก)
+- ⚠️ `quote` / `personality` / `colorPalette` ใน `characters.ts` ยังเป็นค่าตั้งต้น
+  ที่ดึงจาก `cards.ts` และ design tokens ไม่ใช่ค่าจาก reference sheet ตัวจริง
+  — รอแทนที่ใน `src/data/characters.ts` ไฟล์เดียว

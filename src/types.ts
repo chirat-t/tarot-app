@@ -30,6 +30,9 @@ export interface CharacterArc {
   archetype: string;           // "The Journey"
   represents: string;          // สิ่งที่ตัวละครเป็นตัวแทน
   arcSummary: string;          // สรุปพัฒนาการตลอดเรื่อง แบบ "เริ่มต้น → ... → ..."
+  quote: string;               // คำโปรยประจำตัวละคร (แสดงกึ่งกลางในหน้า Character Detail)
+  personality: string[];       // บุคลิก/นิสัยเด่น
+  colorPalette: string[];      // โทนสีหลักของตัวละคร (hex)
   avatar: string;              // path รูป avatar สำหรับ Avatar component
 }
 
