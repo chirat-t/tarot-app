@@ -40,6 +40,8 @@ export const defaultTarotTheme: TarotTheme = {
     parchment: colors.parchment,
   },
   cardBackImage: 'assets/card-back.jpg',
+  coverImage: 'assets/cover.jpg',
+  shuffleBackgroundImage: 'assets/loading-bg.jpg',
   fontDisplay: fonts.display,
 };
 

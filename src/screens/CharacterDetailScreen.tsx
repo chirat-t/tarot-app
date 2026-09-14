@@ -24,7 +24,7 @@ export default function CharacterDetailScreen({ navigation, route }: Props) {
     );
   }
 
-  const portraitImage = characterImages[character.id];
+  const portraitImage = characterImages[character.id]?.portrait;
 
   return (
     <View style={styles.container}>

@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { FlatList, StyleSheet, View } from 'react-native';
+import { FlatList, ImageBackground, StyleSheet, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import type { CompositeNavigationProp } from '@react-navigation/native';
 import type { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
@@ -7,6 +7,7 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { ActivityIndicator, Appbar, Badge, Banner, Text } from 'react-native-paper';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { coverImage } from '../assets/backgroundImages';
 import CardGridItem from '../components/CardGridItem';
 import { useCollection } from '../context/CollectionContext';
 import { colors, fonts } from '../theme';
@@ -43,7 +44,7 @@ export default function HomeScreen() {
   }, [getRandomCard, handleCardPress]);
 
   return (
-    <View style={styles.container}>
+    <ImageBackground source={coverImage} resizeMode="cover" style={styles.container}>
       <Appbar.Header style={styles.appbar} statusBarHeight={insets.top}>
         <Appbar.Content title="Major Arcana" titleStyle={styles.appTitle} />
         <View style={styles.actionWrapper}>
@@ -104,11 +105,12 @@ export default function HomeScreen() {
           }
         />
       )}
-    </View>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
+  // backgroundColor เป็น fallback สีทึบระหว่างรอโหลดภาพพื้นหลัง/ถ้าโหลดไม่สำเร็จ
   container: { flex: 1, backgroundColor: colors.bgPhone },
   appbar: { backgroundColor: colors.bgCard },
   appTitle: { color: colors.parchment, fontFamily: fonts.displaySemiBold, letterSpacing: 1.5, fontSize: 20 },

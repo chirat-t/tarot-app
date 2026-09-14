@@ -16,7 +16,8 @@ const characters: CharacterArc[] = [
     quote: "เราไม่จำเป็นต้องรู้ว่าปลายทางอยู่ที่ไหน แค่กล้าออกเดินทางก็พอ",
     personality: ["ความกล้า", "การเปิดรับสิ่งใหม่", "ความมุ่งมั่น", "ความสดใส"],
     colorPalette: ["#C9A24B", "#EDE3C8", "#8A733A"],
-    avatar: "assets/characters/boy.jpg"
+    avatar: "assets/characters/boy.jpg",
+    portrait: "assets/characters/portraits/boy.jpg"
   },
   {
     id: "witch",
@@ -27,7 +28,8 @@ const characters: CharacterArc[] = [
     quote: "บางคำตอบไม่ได้อยู่ตรงหน้า แต่อยู่ในสิ่งที่เรารู้สึก",
     personality: ["สัญชาตญาณ", "ภูมิปัญญา", "ความเมตตา", "การฟังเสียงภายใน"],
     colorPalette: ["#6E5CC7", "#B9C0D4", "#2A3550"],
-    avatar: "assets/characters/witch.jpg"
+    avatar: "assets/characters/witch.jpg",
+    portrait: "assets/characters/portraits/witch.jpg"
   },
   {
     id: "reaper",
@@ -38,7 +40,8 @@ const characters: CharacterArc[] = [
     quote: "บางคำตอบ เราต้องเดินไปค้นหาด้วยตัวเอง",
     personality: ["การไตร่ตรอง", "ความยุติธรรม", "การปล่อยวาง", "ความจริง"],
     colorPalette: ["#7C859E", "#2A3550", "#EDE3C8"],
-    avatar: "assets/characters/reaper.jpg"
+    avatar: "assets/characters/reaper.jpg",
+    portrait: "assets/characters/portraits/reaper.jpg"
   },
   {
     id: "alchemist",
@@ -49,7 +52,8 @@ const characters: CharacterArc[] = [
     quote: "สิ่งที่เรามีอยู่ในมือ อาจเพียงพอสำหรับสร้างสิ่งที่ยิ่งใหญ่",
     personality: ["ความคิดสร้างสรรค์", "การลงมือทำ", "ภาวะผู้นำ", "สมดุล"],
     colorPalette: ["#C9A24B", "#1B2740", "#6E5CC7"],
-    avatar: "assets/characters/alchemist.jpg"
+    avatar: "assets/characters/alchemist.jpg",
+    portrait: "assets/characters/portraits/alchemist.jpg"
   }
 ];
 
