@@ -1,12 +1,13 @@
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { Image, ScrollView, StyleSheet, View } from 'react-native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { Appbar, Text } from 'react-native-paper';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { characterImages } from '../assets/characterImages';
 import CharacterAvatar from '../components/CharacterAvatar';
 import InfoRow from '../components/InfoRow';
 import characters from '../data/characters';
-import { colors } from '../theme';
+import { colors, fonts } from '../theme';
 import type { RootStackParamList } from '../navigation/types';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'CharacterDetail'>;
@@ -23,6 +24,8 @@ export default function CharacterDetailScreen({ navigation, route }: Props) {
     );
   }
 
+  const portraitImage = characterImages[character.id];
+
   return (
     <View style={styles.container}>
       <Appbar.Header style={styles.appbar} statusBarHeight={insets.top}>
@@ -34,9 +37,13 @@ export default function CharacterDetailScreen({ navigation, route }: Props) {
         contentContainerStyle={[styles.content, { paddingBottom: 32 + insets.bottom }]}
         showsVerticalScrollIndicator={false}
       >
-        {/* ภาพตัวละครเต็มตัว — ขั้นตอนที่ 7 เปลี่ยนเป็น <Image source={character.avatar} /> */}
+        {/* ภาพตัวละครเต็มตัว — asset จริงจาก src/assets/characters/ */}
         <View style={styles.portrait}>
-          <CharacterAvatar characterId={character.id} size={168} />
+          {portraitImage ? (
+            <Image source={portraitImage} style={styles.portraitImage} resizeMode="cover" />
+          ) : (
+            <CharacterAvatar characterId={character.id} size={168} />
+          )}
         </View>
 
         <View style={styles.heading}>
@@ -89,26 +96,29 @@ export default function CharacterDetailScreen({ navigation, route }: Props) {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.bgPhone },
   appbar: { backgroundColor: colors.bgCard },
-  appTitle: { color: colors.parchment, fontSize: 18, letterSpacing: 0.5 },
+  appTitle: { color: colors.parchment, fontFamily: fonts.bodyBold, fontSize: 18, letterSpacing: 0.5 },
   content: { padding: 20, alignItems: 'center', gap: 18 },
 
   portrait: {
     alignSelf: 'stretch',
-    aspectRatio: 4 / 5,
+    aspectRatio: 1,
     borderRadius: 14,
+    overflow: 'hidden',
     borderWidth: 1,
     borderColor: colors.goldDim,
     backgroundColor: colors.bgCard,
     alignItems: 'center',
     justifyContent: 'center',
   },
+  portraitImage: { width: '100%', height: '100%' },
 
   heading: { alignItems: 'center', gap: 4 },
-  name: { color: colors.parchment, fontSize: 24, letterSpacing: 0.5 },
-  archetype: { color: colors.gold, fontSize: 13, letterSpacing: 2 },
+  name: { color: colors.parchment, fontFamily: fonts.bodyBold, fontSize: 24, letterSpacing: 0.5 },
+  archetype: { color: colors.gold, fontFamily: fonts.display, fontSize: 13, letterSpacing: 2 },
 
   quote: {
     color: colors.ink,
+    fontFamily: fonts.body,
     fontStyle: 'italic',
     fontSize: 15,
     lineHeight: 24,
@@ -127,6 +137,7 @@ const styles = StyleSheet.create({
   },
   label: {
     color: colors.inkDim,
+    fontFamily: fonts.body,
     fontSize: 11,
     letterSpacing: 1,
     textTransform: 'uppercase',
@@ -141,7 +152,7 @@ const styles = StyleSheet.create({
     borderColor: colors.goldDim,
     backgroundColor: colors.bgCard2,
   },
-  chipText: { color: colors.parchment, fontSize: 13 },
+  chipText: { color: colors.parchment, fontFamily: fonts.body, fontSize: 13 },
 
   swatches: { flexDirection: 'row', flexWrap: 'wrap', gap: 16 },
   swatchItem: { alignItems: 'center', gap: 6 },
@@ -154,6 +165,7 @@ const styles = StyleSheet.create({
   },
   swatchHex: {
     color: colors.inkDim,
+    fontFamily: fonts.body,
     fontSize: 11,
     fontVariant: ['tabular-nums'],
   },
@@ -164,5 +176,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  missingText: { color: colors.parchment },
+  missingText: { color: colors.parchment, fontFamily: fonts.body },
 });

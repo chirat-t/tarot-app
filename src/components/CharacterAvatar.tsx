@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native';
 import { Avatar } from 'react-native-paper';
 
+import { characterImages } from '../assets/characterImages';
 import characters from '../data/characters';
 import { colors } from '../theme';
 import { CharacterId } from '../types';
@@ -12,7 +13,8 @@ const ANIMAL_NAMES: Record<string, string> = {
   crow: 'อีกา',
 };
 
-const ICONS: Record<CharacterId, string> = {
+// ไอคอนสำรองสำหรับสัตว์คู่หู (dog/cat/crow) ที่ยังไม่มีรูปจริง
+const FALLBACK_ICONS: Record<CharacterId, string> = {
   boy: 'human-child',
   witch: 'hat-fedora',
   reaper: 'skull-outline',
@@ -31,12 +33,26 @@ type Props = {
   size?: number;
 };
 
-// ขั้นตอนที่ 7 มีรูปจริงแล้วเปลี่ยนเป็น Avatar.Image ที่เดียวตรงนี้
+// ตัวละครหลัก 4 ตัวใช้รูปจริงจาก src/assets/characters/ — สัตว์คู่หูที่ยังไม่มี
+// asset (dog/cat/crow) ใช้ไอคอนสำรองแทนไปก่อน
 export default function CharacterAvatar({ characterId, size = 120 }: Props) {
+  const image = characterImages[characterId];
+
+  if (image) {
+    return (
+      <Avatar.Image
+        size={size}
+        source={image}
+        style={[styles.avatar, { borderRadius: size / 2 }]}
+        accessibilityLabel={characterName(characterId)}
+      />
+    );
+  }
+
   return (
     <Avatar.Icon
       size={size}
-      icon={ICONS[characterId] ?? 'account-outline'}
+      icon={FALLBACK_ICONS[characterId] ?? 'account-outline'}
       color={colors.gold}
       style={[styles.avatar, { borderRadius: size / 2 }]}
       accessibilityLabel={characterName(characterId)}

@@ -4,7 +4,7 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { ActivityIndicator, Text } from 'react-native-paper';
 
 import CardBack from '../components/CardBack';
-import { colors } from '../theme';
+import { colors, fonts } from '../theme';
 import type { RootStackParamList } from '../navigation/types';
 
 const SHUFFLE_MS = 1000;
@@ -47,6 +47,6 @@ const styles = StyleSheet.create({
     padding: 24,
   },
   texts: { alignItems: 'center', gap: 8 },
-  title: { color: colors.parchment, fontSize: 18, letterSpacing: 1 },
-  subtitle: { color: colors.inkDim, fontSize: 13, textAlign: 'center' },
+  title: { color: colors.parchment, fontFamily: fonts.bodyMedium, fontSize: 18, letterSpacing: 1 },
+  subtitle: { color: colors.inkDim, fontFamily: fonts.body, fontSize: 13, textAlign: 'center' },
 });
