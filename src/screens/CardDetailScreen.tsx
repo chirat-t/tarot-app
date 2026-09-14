@@ -7,7 +7,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import CharacterAvatar, { characterName } from '../components/CharacterAvatar';
 import InfoRow from '../components/InfoRow';
 import { useCollection } from '../context/CollectionContext';
-import { colors } from '../theme';
+import { colors, fonts } from '../theme';
 import type { RootStackParamList } from '../navigation/types';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'CardDetail'>;
@@ -94,14 +94,21 @@ export default function CardDetailScreen({ navigation, route }: Props) {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.bgPhone },
   appbar: { backgroundColor: colors.bgCard },
-  appTitle: { color: colors.parchment, fontSize: 17, letterSpacing: 1.5 },
+  appTitle: { color: colors.parchment, fontFamily: fonts.displaySemiBold, fontSize: 17, letterSpacing: 1.5 },
   content: { padding: 20, alignItems: 'center', gap: 18 },
   heading: { alignItems: 'center', gap: 4 },
-  numeral: { color: colors.goldDim, fontSize: 13, letterSpacing: 3 },
-  name: { color: colors.parchment, fontSize: 26, letterSpacing: 2, textAlign: 'center' },
-  thaiName: { color: colors.gold, fontSize: 15 },
+  numeral: { color: colors.goldDim, fontFamily: fonts.display, fontSize: 13, letterSpacing: 3 },
+  name: {
+    color: colors.parchment,
+    fontFamily: fonts.displayBold,
+    fontSize: 26,
+    letterSpacing: 2,
+    textAlign: 'center',
+  },
+  thaiName: { color: colors.gold, fontFamily: fonts.bodyMedium, fontSize: 15 },
   quote: {
     color: colors.ink,
+    fontFamily: fonts.body,
     fontStyle: 'italic',
     fontSize: 15,
     lineHeight: 24,
@@ -117,5 +124,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: 12,
   },
-  missingText: { color: colors.parchment },
+  missingText: { color: colors.parchment, fontFamily: fonts.body },
 });

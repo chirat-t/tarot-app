@@ -2,7 +2,7 @@ import { StyleSheet, View } from 'react-native';
 import { Text } from 'react-native-paper';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
-import { colors } from '../theme';
+import { colors, fonts } from '../theme';
 
 type Props = {
   icon: keyof typeof MaterialCommunityIcons.glyphMap;
@@ -50,9 +50,10 @@ const styles = StyleSheet.create({
   texts: { flex: 1, gap: 4 },
   label: {
     color: colors.inkDim,
+    fontFamily: fonts.body,
     fontSize: 11,
     letterSpacing: 1,
     textTransform: 'uppercase',
   },
-  value: { color: colors.parchment, fontSize: 15, lineHeight: 22 },
+  value: { color: colors.parchment, fontFamily: fonts.body, fontSize: 15, lineHeight: 22 },
 });

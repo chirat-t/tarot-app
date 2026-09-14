@@ -1,4 +1,4 @@
-import { MD3DarkTheme } from 'react-native-paper';
+import { configureFonts, MD3DarkTheme } from 'react-native-paper';
 
 import { TarotTheme } from './types';
 
@@ -17,9 +17,16 @@ export const colors = {
   border: '#2A3550',
 } as const;
 
+// ชื่อ font family ต้องตรงกับ key ที่ลงทะเบียนไว้ใน useFonts() ที่ App.tsx
+// Cinzel เป็นฟอนต์ละตินล้วน ไม่มีกลีมภาษาไทย — ใช้กับหัวเรื่อง/ชื่อไพ่/เลขโรมัน
+// ที่เป็นภาษาอังกฤษเท่านั้น ส่วนเนื้อหาภาษาไทยทั้งหมดใช้ Noto Sans Thai
 export const fonts = {
-  display: 'Cinzel',      // หัวเรื่อง/ชื่อไพ่
-  body: 'Noto Sans Thai', // เนื้อหา
+  display: 'Cinzel-Regular',
+  displaySemiBold: 'Cinzel-SemiBold',
+  displayBold: 'Cinzel-Bold',
+  body: 'NotoSansThai-Regular',
+  bodyMedium: 'NotoSansThai-Medium',
+  bodyBold: 'NotoSansThai-Bold',
 } as const;
 
 // ธีมเริ่มต้นตามโครงสร้าง TarotTheme — ThemeContext จะอ่านค่านี้แล้วส่งต่อให้ทุกหน้าจอ
@@ -32,7 +39,7 @@ export const defaultTarotTheme: TarotTheme = {
     gold: colors.gold,
     parchment: colors.parchment,
   },
-  cardBackImage: 'assets/card-back.png',
+  cardBackImage: 'assets/card-back.jpg',
   fontDisplay: fonts.display,
 };
 
@@ -40,6 +47,10 @@ export const defaultTarotTheme: TarotTheme = {
 // Avatar, ActivityIndicator) ดึงสีจากที่นี่แทนการ hardcode
 export const paperTheme = {
   ...MD3DarkTheme,
+  // ฟอนต์ default ของคอมโพเนนต์ Paper เอง (ปุ่ม, Appbar title ก่อนถูก override,
+  // Banner action, Snackbar ฯลฯ) ใช้ Noto Sans Thai เป็นฐาน — หัวเรื่องที่ต้องการ
+  // Cinzel ยังกำหนด fontFamily ตรง ๆ ที่ style ของแต่ละจุดเหมือนเดิม
+  fonts: configureFonts({ config: { fontFamily: fonts.body } }),
   colors: {
     ...MD3DarkTheme.colors,
     primary: colors.gold,

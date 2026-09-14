@@ -12,7 +12,7 @@ import CardModal from '../components/CardModal';
 import CharacterAvatar from '../components/CharacterAvatar';
 import { useCollection } from '../context/CollectionContext';
 import characters from '../data/characters';
-import { colors } from '../theme';
+import { colors, fonts } from '../theme';
 import { CharacterArc, TarotCard } from '../types';
 import type { RootStackParamList, RootTabParamList } from '../navigation/types';
 
@@ -183,8 +183,8 @@ export default function CollectionScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.bgPhone },
   appbar: { backgroundColor: colors.bgCard },
-  title: { color: colors.parchment, fontSize: 18, letterSpacing: 0.5 },
-  count: { color: colors.gold, marginRight: 16, fontSize: 14 },
+  title: { color: colors.parchment, fontFamily: fonts.bodyBold, fontSize: 18, letterSpacing: 0.5 },
+  count: { color: colors.gold, fontFamily: fonts.body, marginRight: 16, fontSize: 14 },
 
   tabBar: {
     flexDirection: 'row',
@@ -200,8 +200,8 @@ const styles = StyleSheet.create({
     borderBottomColor: 'transparent',
   },
   tabActive: { borderBottomColor: colors.gold },
-  tabLabel: { color: colors.inkDim, fontSize: 13 },
-  tabLabelActive: { color: colors.gold },
+  tabLabel: { color: colors.inkDim, fontFamily: fonts.body, fontSize: 13 },
+  tabLabelActive: { color: colors.gold, fontFamily: fonts.bodyMedium },
 
   list: { padding: 16, gap: GAP },
   row: { gap: GAP },
@@ -218,8 +218,14 @@ const styles = StyleSheet.create({
     gap: 8,
     padding: 8,
   },
-  numeral: { color: colors.gold, fontSize: 18, letterSpacing: 2, fontWeight: '600' },
-  cardName: { color: colors.parchment, fontSize: 11, textAlign: 'center', lineHeight: 16 },
+  numeral: { color: colors.gold, fontFamily: fonts.displaySemiBold, fontSize: 18, letterSpacing: 2 },
+  cardName: {
+    color: colors.parchment,
+    fontFamily: fonts.body,
+    fontSize: 11,
+    textAlign: 'center',
+    lineHeight: 16,
+  },
   checkBadge: {
     position: 'absolute',
     top: -6,
@@ -235,6 +241,7 @@ const styles = StyleSheet.create({
     right: -6,
     backgroundColor: colors.purple,
     color: colors.parchment,
+    fontFamily: fonts.bodyMedium,
     fontSize: 10,
     lineHeight: 18,
     paddingHorizontal: 6,
@@ -253,7 +260,12 @@ const styles = StyleSheet.create({
     padding: 14,
   },
   characterTexts: { flex: 1, gap: 3 },
-  characterName: { color: colors.parchment, fontSize: 16 },
-  characterArchetype: { color: colors.gold, fontSize: 12, letterSpacing: 1 },
-  characterArc: { color: colors.ink, fontSize: 12, lineHeight: 18 },
+  characterName: { color: colors.parchment, fontFamily: fonts.bodyMedium, fontSize: 16 },
+  characterArchetype: {
+    color: colors.gold,
+    fontFamily: fonts.display,
+    fontSize: 12,
+    letterSpacing: 1,
+  },
+  characterArc: { color: colors.ink, fontFamily: fonts.body, fontSize: 12, lineHeight: 18 },
 });

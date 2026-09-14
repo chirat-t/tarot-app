@@ -19,6 +19,9 @@ npm start      # หรือ npm run android / npm run ios / npm run web
 | React Native | 0.86.3 | |
 | react-native-paper | ^5.15.3 | ไอคอนใช้ `@expo/vector-icons` (MaterialCommunityIcons) |
 | @react-navigation/native + native-stack + bottom-tabs | ^7 | พร้อม `react-native-screens`, `react-native-safe-area-context` |
+| @react-native-async-storage/async-storage | 2.2.0 | persist สถานะไพ่ที่เปิดแล้ว/บันทึกไว้ |
+| @expo-google-fonts/cinzel, @expo-google-fonts/noto-sans-thai | ^0.4.2 | ฟอนต์หัวเรื่อง (Cinzel) และเนื้อหาไทย (Noto Sans Thai) |
+| expo-font, expo-splash-screen | ~57.0.3, ~57.0.8 | โหลดฟอนต์ก่อนเปิดหน้าแรก (App.tsx) |
 
 ## โครงสร้างโปรเจกต์
 
@@ -38,8 +41,11 @@ src/
   navigation/
     AppNavigator.tsx
   assets/
-    cards/              # 00-the-fool.png ... 21-the-world.png
-    characters/         # boy.png, witch.png, reaper.png, alchemist.png
+    cards/              # 00-the-fool.jpg ... 21-the-world.jpg (22 ใบ, ไฟล์จริง)
+    characters/         # boy.jpg, witch.jpg, reaper.jpg, alchemist.jpg (ไฟล์จริง)
+    card-back.jpg       # รูปหลังไพ่ (ไฟล์จริง)
+    cardImages.ts       # แมป card.id -> require() ภาพจริง (Metro ต้องการ literal require)
+    characterImages.ts  # แมป CharacterId -> require() (เฉพาะ 4 ตัวละครหลักที่มีรูป)
 assets/                 # ไอคอน/splash ของแอป (Expo ต้องการที่ root ตาม app.json)
 ```
 
@@ -51,7 +57,8 @@ assets/                 # ไอคอน/splash ของแอป (Expo ต้
 - [x] 4. Loading Screen (สับไพ่ ~1 วิ + ActivityIndicator ซ้อนหลังไพ่)
 - [x] 5. Card Detail (Appbar.BackAction + Avatar + คำโปรย + InfoRow + สุ่มไพ่ใหม่)
 - [x] 6. Collection (Tabs, Grid 3 คอลัมน์, Badge ใหม่/✓, Modal ไพ่เต็มใบ)
-- [ ] 7. ใส่ assets จริง · 8. Capture หน้าจอ + รายงาน PDF
+- [x] 7. ใส่ assets จริง (ภาพไพ่ 22 ใบ, หลังไพ่, avatar 4 ตัวละคร) + ฟอนต์ Cinzel/Noto Sans Thai
+- [ ] 8. Capture หน้าจอ + รายงาน PDF
 
 หมายเหตุการพัฒนา:
 
@@ -60,10 +67,13 @@ assets/                 # ไอคอน/splash ของแอป (Expo ต้
   `CollectionContext` ที่เดียว
 - Flow: แตะไพ่ → `Loading` (สับไพ่ ~1 วิ) → `replace` ไป `CardDetail`
   ปุ่มย้อนกลับจึงกลับ Home ไม่ย้อนไปหน้าสับไพ่
-- หลังไพ่วาดด้วย style ไปก่อน อยู่ที่ `components/CardBack.tsx` ที่เดียว
-  ขั้นตอนที่ 7 เปลี่ยนเป็น `assets/card-back.png` จุดเดียวจบ
-- Avatar ใช้ `Avatar.Icon` แมป CharacterId → ไอคอน ที่
-  `components/CharacterAvatar.tsx` ขั้นตอนที่ 7 เปลี่ยนเป็น `Avatar.Image`
+- หลังไพ่: `CardBack.tsx` ใช้ `ImageBackground` กับ `assets/card-back.jpg` จริง
+  เลขโรมันวางเป็น pill ทึบแสงด้านล่างการ์ด (ไม่ทับลายกลางการ์ด)
+- Avatar: `CharacterAvatar.tsx` ใช้ `Avatar.Image` กับรูปจริง 4 ตัวละคร
+  (boy/witch/reaper/alchemist) — สัตว์คู่หู (dog/cat/crow) ยังไม่มี asset
+  จึง fallback เป็น `Avatar.Icon` อัตโนมัติเมื่อไม่พบรูปใน `characterImages.ts`
+- CardModal ใช้ภาพไพ่จริงเต็มใบ (`cardImages.ts`) แทน placeholder เดิม
+- CharacterDetailScreen แสดงภาพตัวละครจริงแบบสี่เหลี่ยมเต็มพื้นที่ (ไม่ใช่วงกลม)
 - Collection: แท็บ "ไพ่ที่เคยดูแล้ว" วน 22 ใบจาก cards.ts — ใบที่เปิดแล้ว
   โชว์เลขโรมัน + ชื่อไทย + Badge ✓ แตะเปิด Modal ไพ่เต็มใบ, ใบที่ยังไม่เปิด
   โชว์ CardBack + Badge "ใหม่" และแตะไม่ได้
@@ -75,3 +85,18 @@ assets/                 # ไอคอน/splash ของแอป (Expo ต้
 - ⚠️ `quote` / `personality` / `colorPalette` ใน `characters.ts` ยังเป็นค่าตั้งต้น
   ที่ดึงจาก `cards.ts` และ design tokens ไม่ใช่ค่าจาก reference sheet ตัวจริง
   — รอแทนที่ใน `src/data/characters.ts` ไฟล์เดียว
+- ฟอนต์: `App.tsx` โหลด Cinzel (400/600/700) + Noto Sans Thai (400/500/700)
+  ด้วย `useFonts()` แล้วค้าง splash screen ไว้จนโหลดเสร็จ (กัน FOUT)
+  ชื่อ family ที่ใช้จริงอยู่ที่ `src/theme.ts` (`fonts.display`, `fonts.body` ฯลฯ)
+  — Cinzel เป็นฟอนต์ละตินล้วน ใช้กับหัวเรื่อง/ชื่อไพ่ภาษาอังกฤษ/เลขโรมันเท่านั้น
+  ข้อความไทยทั้งหมดใช้ Noto Sans Thai; ปุ่ม/Badge ของ Paper เองรับฟอนต์ผ่าน
+  `paperTheme.fonts` (configureFonts) ส่วน Text ที่กำหนด style เองต้องระบุ
+  `fontFamily` ตรง ๆ (ทำไว้ครบทุกจุดที่มีข้อความแล้ว)
+- Path รูปใน `cards.ts`/`characters.ts` เป็น string เอกสารประกอบเท่านั้น
+  (`.jpg` ตรงกับไฟล์จริงแล้ว) โค้ดจริงที่ import รูปอยู่ที่ `cardImages.ts`/
+  `characterImages.ts` เพราะ Metro ต้องการ `require()` แบบ literal string
+  แมปจาก id ไม่สามารถสร้าง path แบบ dynamic ได้
+- บั๊กที่เจอตอน wiring รูป: react-native-web คำนวณความสูงของ `<Image>`
+  ผิดพลาดเมื่อพึ่ง `aspectRatio` ร่วมกับ `width:'100%'` ในบริบท flex ที่ซ้อน
+  กันหลายชั้น (Modal ที่ centered) — แก้โดยใช้ `ImageBackground` (เหมือน
+  CardBack) หรือกำหนดพิกเซลตรง ๆ แทน (ดู `CardModal.tsx`)

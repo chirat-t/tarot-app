@@ -9,7 +9,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import CardGridItem from '../components/CardGridItem';
 import { useCollection } from '../context/CollectionContext';
-import { colors } from '../theme';
+import { colors, fonts } from '../theme';
 import { TarotCard } from '../types';
 import type { RootStackParamList, RootTabParamList } from '../navigation/types';
 
@@ -111,7 +111,7 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.bgPhone },
   appbar: { backgroundColor: colors.bgCard },
-  appTitle: { color: colors.parchment, letterSpacing: 1.5, fontSize: 20 },
+  appTitle: { color: colors.parchment, fontFamily: fonts.displaySemiBold, letterSpacing: 1.5, fontSize: 20 },
   actionWrapper: { justifyContent: 'center' },
   countBadge: {
     position: 'absolute',
@@ -119,19 +119,21 @@ const styles = StyleSheet.create({
     right: 2,
     backgroundColor: colors.purple,
     color: colors.parchment,
+    fontFamily: fonts.body,
     fontSize: 10,
     lineHeight: 18,
     paddingHorizontal: 4,
   },
   banner: { backgroundColor: colors.bgCard2 },
   bannerContent: { paddingTop: 4 },
-  bannerText: { color: colors.parchment, fontSize: 15 },
+  bannerText: { color: colors.parchment, fontFamily: fonts.body, fontSize: 15 },
   loading: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 14 },
-  loadingText: { color: colors.inkDim },
+  loadingText: { color: colors.inkDim, fontFamily: fonts.body },
   grid: { padding: 16, gap: GAP },
   row: { gap: GAP },
   sectionLabel: {
     color: colors.inkDim,
+    fontFamily: fonts.body,
     fontSize: 12,
     letterSpacing: 1,
     marginBottom: 4,
