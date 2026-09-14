@@ -36,7 +36,7 @@ type Props = {
 // ตัวละครหลัก 4 ตัวใช้รูปจริงจาก src/assets/characters/ — สัตว์คู่หูที่ยังไม่มี
 // asset (dog/cat/crow) ใช้ไอคอนสำรองแทนไปก่อน
 export default function CharacterAvatar({ characterId, size = 120 }: Props) {
-  const image = characterImages[characterId];
+  const image = characterImages[characterId]?.avatar;
 
   if (image) {
     return (

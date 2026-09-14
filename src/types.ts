@@ -33,7 +33,8 @@ export interface CharacterArc {
   quote: string;               // คำโปรยประจำตัวละคร (แสดงกึ่งกลางในหน้า Character Detail)
   personality: string[];       // บุคลิก/นิสัยเด่น
   colorPalette: string[];      // โทนสีหลักของตัวละคร (hex)
-  avatar: string;              // path รูป avatar สำหรับ Avatar component
+  avatar: string;              // path รูป avatar วงกลมเล็ก (Collection list, Card Detail)
+  portrait: string;            // path รูปพอร์เทรตใหญ่สี่เหลี่ยม (Character Detail เต็มจอ)
 }
 
 // สถานะที่ผูกกับผู้ใช้แต่ละคน — เก็บแยกจากข้อมูลไพ่แบบ static (cards.ts)
@@ -54,8 +55,10 @@ export interface TarotTheme {
     gold: string;
     parchment: string;
   };
-  cardBackImage: string;        // รูปหลังไพ่ของธีมนี้
-  fontDisplay: string;          // ฟอนต์หัวเรื่อง เช่น "Cinzel"
+  cardBackImage: string;          // รูปหลังไพ่ของธีมนี้
+  coverImage: string;             // พื้นหลังหน้า Home (หน้าปกตอนเข้าเกม)
+  shuffleBackgroundImage: string; // พื้นหลังหน้า Loading (ตอนสับไพ่)
+  fontDisplay: string;            // ฟอนต์หัวเรื่อง เช่น "Cinzel"
 }
 
 export interface TarotDeck {

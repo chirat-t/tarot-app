@@ -1,8 +1,9 @@
 import { useEffect } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { ImageBackground, StyleSheet, View } from 'react-native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { ActivityIndicator, Text } from 'react-native-paper';
 
+import { loadingBackgroundImage } from '../assets/backgroundImages';
 import CardBack from '../components/CardBack';
 import { colors, fonts } from '../theme';
 import type { RootStackParamList } from '../navigation/types';
@@ -25,7 +26,7 @@ export default function LoadingScreen({ navigation, route }: Props) {
   }, [navigation, cardId]);
 
   return (
-    <View style={styles.container}>
+    <ImageBackground source={loadingBackgroundImage} resizeMode="cover" style={styles.container}>
       <CardBack width={CARD_WIDTH}>
         <ActivityIndicator animating size="large" color={colors.gold} />
       </CardBack>
@@ -33,11 +34,12 @@ export default function LoadingScreen({ navigation, route }: Props) {
         <Text style={styles.title}>กำลังสับไพ่...</Text>
         <Text style={styles.subtitle}>ตั้งคำถามในใจ แล้วปล่อยให้ไพ่เลือกคุณ</Text>
       </View>
-    </View>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
+  // backgroundColor เป็น fallback สีทึบระหว่างรอโหลดภาพพื้นหลัง/ถ้าโหลดไม่สำเร็จ
   container: {
     flex: 1,
     backgroundColor: colors.bgPhone,

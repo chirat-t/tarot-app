@@ -42,10 +42,15 @@ src/
     AppNavigator.tsx
   assets/
     cards/              # 00-the-fool.jpg ... 21-the-world.jpg (22 ใบ, ไฟล์จริง)
-    characters/         # boy.jpg, witch.jpg, reaper.jpg, alchemist.jpg (ไฟล์จริง)
+    characters/         # boy.jpg, witch.jpg, reaper.jpg, alchemist.jpg (avatar, ไฟล์จริง)
+      portraits/        # boy.jpg, witch.jpg, reaper.jpg, alchemist.jpg (พอร์เทรตใหญ่,
+                         # ตอนนี้เป็นสำเนาของ avatar — รอไฟล์จริงมาวางทับ)
     card-back.jpg       # รูปหลังไพ่ (ไฟล์จริง)
+    cover.jpg           # พื้นหลังหน้า Home (placeholder gradient, รอไฟล์จริง)
+    loading-bg.jpg      # พื้นหลังหน้า Loading/สับไพ่ (placeholder gradient, รอไฟล์จริง)
     cardImages.ts       # แมป card.id -> require() ภาพจริง (Metro ต้องการ literal require)
-    characterImages.ts  # แมป CharacterId -> require() (เฉพาะ 4 ตัวละครหลักที่มีรูป)
+    characterImages.ts  # แมป CharacterId -> { avatar, portrait } require()
+    backgroundImages.ts # require() ของ cover.jpg / loading-bg.jpg
 assets/                 # ไอคอน/splash ของแอป (Expo ต้องการที่ root ตาม app.json)
 ```
 
@@ -73,7 +78,18 @@ assets/                 # ไอคอน/splash ของแอป (Expo ต้
   (boy/witch/reaper/alchemist) — สัตว์คู่หู (dog/cat/crow) ยังไม่มี asset
   จึง fallback เป็น `Avatar.Icon` อัตโนมัติเมื่อไม่พบรูปใน `characterImages.ts`
 - CardModal ใช้ภาพไพ่จริงเต็มใบ (`cardImages.ts`) แทน placeholder เดิม
-- CharacterDetailScreen แสดงภาพตัวละครจริงแบบสี่เหลี่ยมเต็มพื้นที่ (ไม่ใช่วงกลม)
+- CharacterDetailScreen แสดงภาพ **portrait** (ไม่ใช่ avatar) แบบสี่เหลี่ยม
+  เต็มพื้นที่ (ไม่ใช่วงกลม) — `characterImages.ts` แยก `avatar`/`portrait`
+  คนละ field ต่อตัวละครแล้ว
+- ⚠️ `src/assets/characters/portraits/*.jpg` ตอนนี้เป็น **สำเนาของ avatar**
+  ไปก่อน (ยังไม่มีภาพพอร์เทรตแยก) — อัปเกรดได้ทันทีโดยเอาไฟล์จริงไปวางทับ
+  ที่ path เดิม ใช้ชื่อไฟล์เดิมทุกตัว ไม่ต้องแก้โค้ดเลย:
+  `src/assets/characters/portraits/{boy,witch,reaper,alchemist}.jpg`
+- ⚠️ `src/assets/cover.jpg` (พื้นหลังหน้า Home) และ `src/assets/loading-bg.jpg`
+  (พื้นหลังหน้า Loading) ตอนนี้เป็น **placeholder gradient ที่ generate จาก
+  design tokens** ไปก่อน ไม่ใช่ภาพประกอบจริง — อัปเกรดได้ทันทีโดยเอาไฟล์จริง
+  ไปวางทับที่ path เดิม (`src/assets/cover.jpg`, `src/assets/loading-bg.jpg`)
+  ไม่ต้องแก้โค้ดเลยเช่นกัน (ดูคอมเมนต์ใน `backgroundImages.ts`)
 - Collection: แท็บ "ไพ่ที่เคยดูแล้ว" วน 22 ใบจาก cards.ts — ใบที่เปิดแล้ว
   โชว์เลขโรมัน + ชื่อไทย + Badge ✓ แตะเปิด Modal ไพ่เต็มใบ, ใบที่ยังไม่เปิด
   โชว์ CardBack + Badge "ใหม่" และแตะไม่ได้
