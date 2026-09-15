@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { FlatList, ImageBackground, StyleSheet, View } from 'react-native';
+import { FlatList, StyleSheet, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import type { CompositeNavigationProp } from '@react-navigation/native';
 import type { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
@@ -7,7 +7,6 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { ActivityIndicator, Appbar, Badge, Banner, Text } from 'react-native-paper';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { coverImage } from '../assets/backgroundImages';
 import CardGridItem from '../components/CardGridItem';
 import { useCollection } from '../context/CollectionContext';
 import { colors, fonts } from '../theme';
@@ -44,9 +43,16 @@ export default function HomeScreen() {
   }, [getRandomCard, handleCardPress]);
 
   return (
-    <ImageBackground source={coverImage} resizeMode="cover" style={styles.container}>
+    <View style={styles.container}>
       <Appbar.Header style={styles.appbar} statusBarHeight={insets.top}>
         <Appbar.Content title="Major Arcana" titleStyle={styles.appTitle} />
+        {/* ปุ่มสลับ Banner คำแนะนำ — กดปิด Banner ไปแล้วยังเรียกกลับมาได้จากตรงนี้ */}
+        <Appbar.Action
+          icon="compass-rose"
+          iconColor={bannerVisible ? colors.goldDim : colors.gold}
+          accessibilityLabel={bannerVisible ? 'ซ่อนคำแนะนำ' : 'แสดงคำแนะนำอีกครั้ง'}
+          onPress={() => setBannerVisible((visible) => !visible)}
+        />
         <View style={styles.actionWrapper}>
           <Appbar.Action
             icon="cards-outline"
@@ -83,7 +89,10 @@ export default function HomeScreen() {
           },
         ]}
       >
-        <Text style={styles.bannerText}>แตะไพ่เพื่อเริ่มการเดินทาง</Text>
+        <View style={styles.bannerTexts}>
+          <Text style={styles.bannerText}>แตะไพ่เพื่อเริ่มการเดินทาง</Text>
+          <Text style={styles.bannerSubtext}>คุณจะพบคำตอบที่ซ่อนอยู่ในไพ่ใบถัดไป</Text>
+        </View>
       </Banner>
 
       {isLoading ? (
@@ -105,12 +114,11 @@ export default function HomeScreen() {
           }
         />
       )}
-    </ImageBackground>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  // backgroundColor เป็น fallback สีทึบระหว่างรอโหลดภาพพื้นหลัง/ถ้าโหลดไม่สำเร็จ
   container: { flex: 1, backgroundColor: colors.bgPhone },
   appbar: { backgroundColor: colors.bgCard },
   appTitle: { color: colors.parchment, fontFamily: fonts.displaySemiBold, letterSpacing: 1.5, fontSize: 20 },
@@ -128,7 +136,9 @@ const styles = StyleSheet.create({
   },
   banner: { backgroundColor: colors.bgCard2 },
   bannerContent: { paddingTop: 4 },
+  bannerTexts: { gap: 2 },
   bannerText: { color: colors.parchment, fontFamily: fonts.body, fontSize: 15 },
+  bannerSubtext: { color: colors.inkDim, fontFamily: fonts.body, fontSize: 12 },
   loading: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 14 },
   loadingText: { color: colors.inkDim, fontFamily: fonts.body },
   grid: { padding: 16, gap: GAP },

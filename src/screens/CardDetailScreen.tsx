@@ -1,10 +1,11 @@
 import { useEffect } from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { Image, ScrollView, StyleSheet, View } from 'react-native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { Appbar, Button, Text } from 'react-native-paper';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import CharacterAvatar, { characterName } from '../components/CharacterAvatar';
+import { cardImages } from '../assets/cardImages';
+import { characterName } from '../components/CharacterAvatar';
 import InfoRow from '../components/InfoRow';
 import { useCollection } from '../context/CollectionContext';
 import { colors, fonts } from '../theme';
@@ -35,8 +36,7 @@ export default function CardDetailScreen({ navigation, route }: Props) {
   }
 
   const favorite = isFavorite(card.id);
-  // ตัวละครหลักของไพ่ใบนี้คือตัวแรกในลิสต์ ที่เหลือเป็นสัตว์คู่หู/ตัวประกอบ
-  const leadCharacter = card.character[0];
+  const cardImage = cardImages[card.id];
 
   return (
     <View style={styles.container}>
@@ -61,9 +61,11 @@ export default function CardDetailScreen({ navigation, route }: Props) {
           <Text style={styles.thaiName}>{card.thaiName}</Text>
         </View>
 
-        {leadCharacter ? <CharacterAvatar characterId={leadCharacter} size={120} /> : null}
+        {cardImage ? (
+          <Image source={cardImage} style={styles.cardImage} accessibilityLabel={card.name} />
+        ) : null}
 
-        {/* คำโปรย: อิตาลิก กึ่งกลาง ไม่มีกรอบ ไม่มีป้ายกำกับ (ข้อ 5.3) */}
+        {/* คำโปรย: กึ่งกลาง ไม่มีกรอบ ไม่มีป้ายกำกับ (ข้อ 5.3) */}
         <Text style={styles.quote}>{card.quote}</Text>
 
         <View style={styles.rows}>
@@ -73,7 +75,18 @@ export default function CardDetailScreen({ navigation, route }: Props) {
             value={card.character.map(characterName).join(' · ')}
           />
           <InfoRow icon="drama-masks" label="บทบาท" value={card.role} />
-          <InfoRow icon="book-open-variant" label="ความหมาย" value={card.meaning.join(' · ')} />
+          <InfoRow
+            icon="book-open-variant"
+            label="ความหมาย +"
+            value={card.meaning.join(' · ')}
+            goldLabel
+          />
+          <InfoRow
+            icon="swap-vertical"
+            label="ความหมาย -"
+            value={card.reversed.join(' · ')}
+            goldLabel
+          />
           <InfoRow icon="star-four-points-outline" label="สัญลักษณ์" value={card.symbols.join(' · ')} />
         </View>
 
@@ -106,10 +119,19 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   thaiName: { color: colors.gold, fontFamily: fonts.bodyMedium, fontSize: 15 },
+  cardImage: {
+    width: 150,
+    height: 224,
+    borderRadius: 12,
+    borderWidth: 2,
+    borderColor: colors.gold,
+  },
+  // ไม่ใช้ fontStyle: 'italic' — Noto Sans Thai ไม่มีฟอนต์เอียงจริง Android จะ
+  // เอียงตัวอักษรปลอมด้วย skew transform ซึ่งทำให้ตัวอักษรท้ายบรรทัด (โดยเฉพาะ
+  // เมื่อ textAlign เป็น center) ถูกตัดขาดหายไปจากขอบเขตที่คำนวณไว้
   quote: {
     color: colors.ink,
     fontFamily: fonts.body,
-    fontStyle: 'italic',
     fontSize: 15,
     lineHeight: 24,
     textAlign: 'center',

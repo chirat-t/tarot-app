@@ -8,18 +8,21 @@ type Props = {
   icon: keyof typeof MaterialCommunityIcons.glyphMap;
   label: string;
   value: string;
+  goldLabel?: boolean;
 };
 
 // แต่ละหัวข้อแยกเป็นกรอบของตัวเอง: ไอคอนวงกลมซ้าย, label เล็กด้านบน,
 // ค่าด้านล่างในกรอบเดียวกัน (PROJECT_BRIEF.md ข้อ 5.3)
-export default function InfoRow({ icon, label, value }: Props) {
+// goldLabel=true ใช้กับหัวข้อที่อยากให้ label เด่นด้วยสีทอง (เช่น "ความหมาย"/
+// "ความหมายกลับหัว") ส่วนกรอบ/ไอคอนยังเหมือนแถวอื่นทุกอย่าง ไม่ทำให้เด่นเกินไป
+export default function InfoRow({ icon, label, value, goldLabel = false }: Props) {
   return (
     <View style={styles.frame}>
       <View style={styles.iconCircle}>
         <MaterialCommunityIcons name={icon} size={18} color={colors.gold} />
       </View>
       <View style={styles.texts}>
-        <Text style={styles.label}>{label}</Text>
+        <Text style={[styles.label, goldLabel && styles.labelGold]}>{label}</Text>
         <Text style={styles.value}>{value}</Text>
       </View>
     </View>
@@ -54,6 +57,10 @@ const styles = StyleSheet.create({
     fontSize: 11,
     letterSpacing: 1,
     textTransform: 'uppercase',
+  },
+  labelGold: {
+    color: colors.gold,
+    fontFamily: fonts.bodyMedium,
   },
   value: { color: colors.parchment, fontFamily: fonts.body, fontSize: 15, lineHeight: 22 },
 });

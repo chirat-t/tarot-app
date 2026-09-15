@@ -10,11 +10,27 @@ import CharacterDetailScreen from '../screens/CharacterDetailScreen';
 import CollectionScreen from '../screens/CollectionScreen';
 import HomeScreen from '../screens/HomeScreen';
 import LoadingScreen from '../screens/LoadingScreen';
+import PredictDrawScreen from '../screens/predict/PredictDrawScreen';
+import PredictResultScreen from '../screens/predict/PredictResultScreen';
+import PredictTopicScreen from '../screens/predict/PredictTopicScreen';
 import { colors } from '../theme';
-import type { RootStackParamList, RootTabParamList } from './types';
+import type { PredictStackParamList, RootStackParamList, RootTabParamList } from './types';
 
 const Tab = createBottomTabNavigator<RootTabParamList>();
 const Stack = createNativeStackNavigator<RootStackParamList>();
+const PredictStack = createNativeStackNavigator<PredictStackParamList>();
+
+// แท็บ "คำทำนาย" มี stack ของตัวเอง — เริ่มที่เลือกหัวข้อ แล้วไล่ไปจั่วไพ่/ดูผล
+// โดย tab bar ยังอยู่ตลอด flow (ต่างจาก Loading/CardDetail ที่เปิดทับเต็มจอ)
+function PredictNavigator() {
+  return (
+    <PredictStack.Navigator screenOptions={{ headerShown: false }}>
+      <PredictStack.Screen name="PredictTopic" component={PredictTopicScreen} />
+      <PredictStack.Screen name="PredictDraw" component={PredictDrawScreen} />
+      <PredictStack.Screen name="PredictResult" component={PredictResultScreen} />
+    </PredictStack.Navigator>
+  );
+}
 
 const navigationTheme = {
   ...DefaultTheme,
@@ -58,6 +74,16 @@ function TabsNavigator() {
           title: 'หน้าแรก',
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="home-variant-outline" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Predict"
+        component={PredictNavigator}
+        options={{
+          title: 'คำทำนาย',
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="crystal-ball" color={color} size={size} />
           ),
         }}
       />

@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { FlatList, StyleSheet, View } from 'react-native';
+import { FlatList, ImageBackground, StyleSheet, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import type { CompositeNavigationProp } from '@react-navigation/native';
 import type { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
@@ -7,6 +7,7 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Appbar, Badge, Text, TouchableRipple } from 'react-native-paper';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { cardImages } from '../assets/cardImages';
 import CardBack from '../components/CardBack';
 import CardModal from '../components/CardModal';
 import CharacterAvatar from '../components/CharacterAvatar';
@@ -56,12 +57,18 @@ function CollectionCard({
         }
       >
         {viewed ? (
-          <View style={styles.faceUp}>
-            <Text style={styles.numeral}>{card.numeral}</Text>
-            <Text style={styles.cardName} numberOfLines={2}>
-              {card.thaiName}
-            </Text>
-          </View>
+          <ImageBackground
+            source={cardImages[card.id]}
+            resizeMode="cover"
+            imageStyle={styles.faceImage}
+            style={styles.faceUp}
+          >
+            <View style={styles.nameBar}>
+              <Text style={styles.cardName} numberOfLines={1}>
+                {card.thaiName}
+              </Text>
+            </View>
+          </ImageBackground>
         ) : (
           <CardBack numeral={card.numeral} />
         )}
@@ -210,18 +217,22 @@ const styles = StyleSheet.create({
   faceUp: {
     aspectRatio: 2 / 3,
     borderRadius: 10,
+    overflow: 'hidden',
     borderWidth: 1,
     borderColor: colors.gold,
     backgroundColor: colors.bgCard2,
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 8,
-    padding: 8,
+    justifyContent: 'flex-end',
   },
-  numeral: { color: colors.gold, fontFamily: fonts.displaySemiBold, fontSize: 18, letterSpacing: 2 },
+  faceImage: { borderRadius: 10 },
+  nameBar: {
+    backgroundColor: 'rgba(11, 17, 32, 0.72)',
+    paddingVertical: 5,
+    paddingHorizontal: 4,
+    alignItems: 'center',
+  },
   cardName: {
-    color: colors.parchment,
-    fontFamily: fonts.body,
+    color: colors.gold,
+    fontFamily: fonts.bodyMedium,
     fontSize: 11,
     textAlign: 'center',
     lineHeight: 16,

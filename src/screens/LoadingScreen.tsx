@@ -8,7 +8,7 @@ import CardBack from '../components/CardBack';
 import { colors, fonts } from '../theme';
 import type { RootStackParamList } from '../navigation/types';
 
-const SHUFFLE_MS = 1000;
+const SHUFFLE_MS = 1200;
 const CARD_WIDTH = 150; // ~150x220 ตาม PROJECT_BRIEF.md ข้อ 5.2
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Loading'>;
@@ -27,9 +27,18 @@ export default function LoadingScreen({ navigation, route }: Props) {
 
   return (
     <ImageBackground source={loadingBackgroundImage} resizeMode="cover" style={styles.container}>
-      <CardBack width={CARD_WIDTH}>
-        <ActivityIndicator animating size="large" color={colors.gold} />
-      </CardBack>
+      {/* ลงเงาทับภาพพื้นหลังเบา ๆ ให้ไพ่ตรงกลางเด่นขึ้น ไม่จมไปกับพื้นหลัง */}
+      <View style={styles.scrim} />
+
+      <View style={styles.cardWrap}>
+        {/* แสงเรืองสีทองฟุ้งจาง ๆ นิ่ง ๆ อยู่ข้างหลัง CardBack — ไม่มี spread radius
+            (ใช้ blur อย่างเดียว) กันไม่ให้เกิดเส้นขอบคมรอบนอก และไม่มี animation ใด ๆ */}
+        <View style={styles.cardGlow} pointerEvents="none" />
+        <CardBack width={CARD_WIDTH}>
+          <ActivityIndicator animating size="large" color={colors.gold} />
+        </CardBack>
+      </View>
+
       <View style={styles.texts}>
         <Text style={styles.title}>กำลังสับไพ่...</Text>
         <Text style={styles.subtitle}>ตั้งคำถามในใจ แล้วปล่อยให้ไพ่เลือกคุณ</Text>
@@ -47,6 +56,31 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: 28,
     padding: 24,
+  },
+  scrim: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(11, 17, 32, 0.5)',
+    // vignette: เพิ่มความมืดเฉพาะขอบจอ (inset shadow) ให้สายตาถูกดึงเข้ากลางจอมากขึ้น
+    boxShadow: 'inset 0 0 160px 50px rgba(0, 0, 0, 0.55)',
+  },
+  cardWrap: {
+    width: CARD_WIDTH,
+    height: CARD_WIDTH * 1.5,
+  },
+  cardGlow: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    borderRadius: 10,
+    // ไม่มี spread radius (ค่าที่ 4) เลย ใช้ blur อย่างเดียวให้ไล่เนียนจางไปกับ
+    // พื้นหลัง ไม่ตัดเป็นเส้นขอบคม
+    boxShadow: '0 0 45px 14px rgba(201,162,75,0.7)',
   },
   texts: { alignItems: 'center', gap: 8 },
   title: { color: colors.parchment, fontFamily: fonts.bodyMedium, fontSize: 18, letterSpacing: 1 },

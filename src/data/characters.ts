@@ -15,7 +15,7 @@ const characters: CharacterArc[] = [
     arcSummary: "เริ่มต้น → ออกเดินทาง → เผชิญโลก → ค้นพบความสุข",
     quote: "เราไม่จำเป็นต้องรู้ว่าปลายทางอยู่ที่ไหน แค่กล้าออกเดินทางก็พอ",
     personality: ["ความกล้า", "การเปิดรับสิ่งใหม่", "ความมุ่งมั่น", "ความสดใส"],
-    colorPalette: ["#C9A24B", "#EDE3C8", "#8A733A"],
+    colorPalette: ["#9a9357", "#8b572a", "#c3523c"],
     avatar: "assets/characters/boy.jpg",
     portrait: "assets/characters/portraits/boy.jpg"
   },
@@ -27,7 +27,7 @@ const characters: CharacterArc[] = [
     arcSummary: "ความลับ → การเรียนรู้ → ความกลัว → ความหวัง → ความเข้าใจ",
     quote: "บางคำตอบไม่ได้อยู่ตรงหน้า แต่อยู่ในสิ่งที่เรารู้สึก",
     personality: ["สัญชาตญาณ", "ภูมิปัญญา", "ความเมตตา", "การฟังเสียงภายใน"],
-    colorPalette: ["#6E5CC7", "#B9C0D4", "#2A3550"],
+    colorPalette: ["#3d2875", "#fbc97f", "#1c1411"],
     avatar: "assets/characters/witch.jpg",
     portrait: "assets/characters/portraits/witch.jpg"
   },
@@ -39,7 +39,7 @@ const characters: CharacterArc[] = [
     arcSummary: "เวลา → การตัดสินใจ → การเปลี่ยนแปลง → การปล่อยวาง → การตื่นรู้",
     quote: "บางคำตอบ เราต้องเดินไปค้นหาด้วยตัวเอง",
     personality: ["การไตร่ตรอง", "ความยุติธรรม", "การปล่อยวาง", "ความจริง"],
-    colorPalette: ["#7C859E", "#2A3550", "#EDE3C8"],
+    colorPalette: ["#191814", "#f7e0c5", "#413227"],
     avatar: "assets/characters/reaper.jpg",
     portrait: "assets/characters/portraits/reaper.jpg"
   },
@@ -51,7 +51,7 @@ const characters: CharacterArc[] = [
     arcSummary: "ทดลอง → เรียนรู้ → สร้าง → ล้มเหลว → เข้าใจสมดุล",
     quote: "สิ่งที่เรามีอยู่ในมือ อาจเพียงพอสำหรับสร้างสิ่งที่ยิ่งใหญ่",
     personality: ["ความคิดสร้างสรรค์", "การลงมือทำ", "ภาวะผู้นำ", "สมดุล"],
-    colorPalette: ["#C9A24B", "#1B2740", "#6E5CC7"],
+    colorPalette: ["#8a7d4c", "#fbf1e3", "#839b41"],
     avatar: "assets/characters/alchemist.jpg",
     portrait: "assets/characters/portraits/alchemist.jpg"
   }

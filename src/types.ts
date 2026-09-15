@@ -67,3 +67,36 @@ export interface TarotDeck {
   themeId: string;              // ผูกกับ TarotTheme.id
   cards: TarotCard[];           // ไพ่ 22 ใบของเดคนี้
 }
+
+// หัวข้อการอ่านไพ่ (Level 2/3) — แต่ละหัวข้อผูกกับ spread ตายตัวหนึ่งแบบ
+// ไม่ใช่ให้ผู้ใช้เลือก spread เองจากหลายแบบ
+export type TopicId = "love" | "career" | "advice" | "daily";
+
+export interface SpreadPosition {
+  id: string;    // slug ไม่ซ้ำภายใน spread เดียวกัน เช่น "self" | "other" | "trend"
+  label: string; // ป้ายกำกับใต้ไพ่ เช่น "ตัวคุณ"
+}
+
+export interface ReadingSpread {
+  id: string;                   // "love-3" | "career-3" | "advice-3" | "daily-1"
+  cardCount: number;            // 1 | 3
+  description: string;          // "ตัวคุณ → อีกฝ่าย → แนวโน้มความสัมพันธ์"
+  positions: SpreadPosition[];  // length === cardCount
+}
+
+export interface ReadingTopic {
+  id: TopicId;
+  label: string;         // "ความรัก & ความสัมพันธ์"
+  icon: string;           // ชื่อไอคอน MaterialCommunityIcons — เก็บเป็น string เฉย ๆ
+                          // (เหมือน FALLBACK_ICONS ใน CharacterAvatar.tsx) กัน types.ts
+                          // ไม่ต้อง import ไลบรารี UI
+  subCaptions?: string[]; // เช่น ["ความรู้สึก","ความสัมพันธ์","คนรอบตัว"] — ไม่มีใน "daily"
+  spread: ReadingSpread;  // 1 หัวข้อ ผูกกับ 1 spread เสมอ
+}
+
+// ส่งจาก CardDrawScreen ไป ReadingResultScreen ผ่าน route params
+export interface DrawnCard {
+  positionId: string; // อ้างอิง SpreadPosition.id
+  cardId: string;     // อ้างอิง TarotCard.id
+  reversed: boolean;
+}

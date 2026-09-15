@@ -51,7 +51,7 @@ export default function CharacterDetailScreen({ navigation, route }: Props) {
           <Text style={styles.archetype}>{character.archetype}</Text>
         </View>
 
-        {/* คำโปรย: อิตาลิก กึ่งกลาง ไม่มีกรอบ เหมือนหน้า Card Detail */}
+        {/* คำโปรย: กึ่งกลาง ไม่มีกรอบ เหมือนหน้า Card Detail */}
         <Text style={styles.quote}>{character.quote}</Text>
 
         <View style={styles.rows}>
@@ -116,10 +116,12 @@ const styles = StyleSheet.create({
   name: { color: colors.parchment, fontFamily: fonts.bodyBold, fontSize: 24, letterSpacing: 0.5 },
   archetype: { color: colors.gold, fontFamily: fonts.display, fontSize: 13, letterSpacing: 2 },
 
+  // ไม่ใช้ fontStyle: 'italic' — Noto Sans Thai ไม่มีฟอนต์เอียงจริง Android จะ
+  // เอียงตัวอักษรปลอมด้วย skew transform ซึ่งทำให้ตัวอักษรท้ายบรรทัด (โดยเฉพาะ
+  // เมื่อ textAlign เป็น center) ถูกตัดขาดหายไปจากขอบเขตที่คำนวณไว้
   quote: {
     color: colors.ink,
     fontFamily: fonts.body,
-    fontStyle: 'italic',
     fontSize: 15,
     lineHeight: 24,
     textAlign: 'center',
